@@ -3,25 +3,42 @@ const form = document.getElementById('addForm')
 const botonProds = document.getElementById('botonProductos')
 const removeform = document.getElementById('removeForm')
 
+
+
 form.addEventListener('submit', async (e) => {
     e.preventDefault()
     const datForm = new FormData(e.target) //Me genera un objeto iterador
     const prod = Object.fromEntries(datForm) //De un objeto iterable genero un objeto simple
+    try {
     await socket.emit('nuevoProducto', prod)
-    await socket.emit('update-products');
+    await socket.emit('update-products')
     e.target.reset()
+    } catch (error) {
+        console.error('Error al agregar producto:', error);
+    }
+    
 })
 
 removeform.addEventListener('submit', async (e) => {
     e.preventDefault()
     const code = removeform.elements["code"].value;
     await socket.emit('remove-product', code)
-    await socket.emit('update-products');
+    await socket.emit('update-products')
     e.target.reset()
-    
 })
 
-    socket.on('products-data', (products) => {
+
+socket.on("status-message", (msg)=>{
+    console.log(msg)
+})
+
+socket.on("reload", ()=>{
+    location.reload()
+})
+
+socket.on('products-data', (products) => {
+        console.log("llega el update de products")
+        console.log(products)
         const tableBody = document.querySelector("#productsTable tbody");
         let tableContent = '';
         if (products && Array.isArray(products)) {

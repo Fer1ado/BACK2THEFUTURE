@@ -3,7 +3,9 @@ import { productModel } from "../Controller/models/product.model.js"
 import { cartModel } from "../Controller/models/cart.model.js";
 import { ticketManager } from "../Controller/Manager/ticketManager.js"
 
-export const register = async (req, res) => { res.render("A-register", {}) }
+export const register = async (req, res) => {res.render("A-register", {})}
+
+export const home = async (req, res) => {res.render("A-login", {})}
 
 export const login = async (req, res) => {
     const sessionInfo = req.session.messages
@@ -20,7 +22,7 @@ export const loginError = async (req, res) => {
     res.render("A-loginError", { failureMessage })
 }
 
-export const realtimeproducts = async (req, res) => {
+export const adminsection = async (req, res) => {
     res.render("realtimeproducts", {
         js: "rtprod.js",
         css: "style.css"

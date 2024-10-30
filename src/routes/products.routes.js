@@ -1,6 +1,7 @@
 import { Router } from "express";
 import * as controller from "../Controller/product.controller.js"
 import { passportCall } from "../middleware/passportCall.middleware.js";
+import { checkAdmin, checkUser } from "../middleware/check.Role.js"
 
 const prodRoute = Router();
 
@@ -12,16 +13,16 @@ prodRoute.get("/:pid", passportCall('jwtCookies'), controller.getProductById);
 prodRoute.get("/", passportCall('jwtCookies'), controller.getAllProducts)
 
 //Subida de productos
-prodRoute.post("/", passportCall('jwtCookies'), controller.addProduct);
+prodRoute.post("/", passportCall('jwtCookies'), checkAdmin, controller.addProduct);
 
 //editado de producto
-prodRoute.put("/:id", passportCall('jwtCookies'), controller.updateProductbyId);
+prodRoute.put("/:id", passportCall('jwtCookies'), checkAdmin,  controller.updateProductbyId);
 
 //borrado de producto
-prodRoute.delete("/:id", passportCall('jwtCookies'), controller.deleteProductById);
+prodRoute.delete("/:id", passportCall('jwtCookies'), checkAdmin, controller.deleteProductById);
 
 //////////// **** comando de inicializacion de db
-prodRoute.post("/many", passportCall('jwtCookies'), controller.populateDb);
+prodRoute.post("/many", controller.populateDb);
 
 
 export default prodRoute;

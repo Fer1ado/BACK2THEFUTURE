@@ -29,7 +29,6 @@ class UserDao {
         try {
             const existUser = await this.existUser(user.email)
             //console.log("🚀 ~ file: userManager.js:32 ~ UserDao ~ createUser ~ existUser:", existUser);
-
             if(!existUser){
                 //console.log("🚀 ~ file: userManager.js:24 ~ UserDao ~ createUser ~ existUser: creando user", existUser);
                 const password = await createHash(user.password)
@@ -48,28 +47,22 @@ class UserDao {
 
 
     async login(userLogin) {
-
-        
         try {
             const user = await userModel.findOne({ email: userLogin.email }) 
             //console.log("🚀 ~ file: userManager.js:53 ~ UserDao ~ login ~ user:", user);
-            
             if (!user) {
                 return { status: "failed", message: "USUARIO NO ENCONTRADO" }
             }
             else {
                 const passValid = await isValidPassword(userLogin.password, user)
                 //console.log("🚀 ~ file: userManager.js:53 ~ UserDao ~ login ~ passValid:", passValid);
-                
                 if(passValid === false){
                     return {status: "failed", message: "CONTRASEÑA INCORRECTA"}
-                } else {
-                
+                } else { 
                 const createCart = await MongoCartManager.createCart()
                 const cartObject = createCart.cart._id.toString()   
                 user.cart = cartObject
                 const token = generateToken(user)
-                
                 return {user: user, token: token}
                 }
             }

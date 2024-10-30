@@ -62,6 +62,15 @@ class ProductDAO {
             }
     }
 
+    async getAllProducts(){
+        try {
+            const products = await productModel.find({});
+            return {status: "success", message: "Todos los productos", products}
+        } catch (err) {
+            return {status: 'failed', message: err.message}
+        }
+    }
+
     async getProductById(id) {
         try{
         const product = await productModel.findById({_id: id});

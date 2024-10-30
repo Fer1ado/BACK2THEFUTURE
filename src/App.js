@@ -10,6 +10,7 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import MongoStore from "connect-mongo"
 import passport from "passport"
+import { adminSocket } from './Controller/socket.controller.js';
 
 //estrategias de Passport
 import "./passport/local-strategy.js"
@@ -72,14 +73,22 @@ app.use(errorHandler)  // incorporación de Middleware Global manejo de errores
 // RUTAS ESTATICAS PARA VIEWS
 app.use("/static", express.static(_dirname + "/public"))
 app.use("/products", express.static(_dirname + "/public"))
-app.use('/realtimeproducts', express.static(path.join(_dirname, '/public')))
+app.use('/adminsection', express.static(path.join(_dirname, '/public')))
 
 // SETEO DE PUERTO
-app.listen(PORT, ()=>{
+const server = app.listen(PORT, ()=>{
   console.warn("--------------------LISTADO DE RUTAS ACTIVAS EN EL PROYECTO-------------------")
   displayRoutes(app)
   console.log(`Server listening on port ${PORT}`)
 })
+
+
+// SOCKET IO PARA UPDATE DE PRODUCTS
+const io = new Server(server);
+
+io.on("connection", adminSocket )
+
+
 
 // CONFIG HANDLEBARS
 app.engine("handlebars", handlebars.engine())
