@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { passportCall } from "../middleware/passportCall.middleware.js";
-import { checkAdmin, checkUser } from "../middleware/check.Role.js"
+import { checkAdmin, checkUser } from "../middleware/role.handler.js"
 import * as controller from "../Controller/views.controller.js"
 
 const viewsRoute = Router()

@@ -29,5 +29,6 @@ export const adminSocket = async (socket) => {
       const remove = await MongoProductManager.deleteProduct(cod)
       console.log(remove)
       socket.emit("Produc-removed", remove)
+      reloadPg()
     })
   }

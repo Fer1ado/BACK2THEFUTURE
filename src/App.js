@@ -25,6 +25,7 @@ import prodRoute from "./routes/products.routes.js";
 import viewsRoute from "./routes/views.routes.js";
 import userRoute from './routes/user.routes.js';
 import userApiRoute from './routes/user.api.routes.js';
+import mailRoute from './routes/email.routes.js';
 
 
 /// CONFIG/IMPORT SERVIDOR
@@ -101,6 +102,7 @@ app.use("/api/products", prodRoute);
 app.use("/api/cart", cartRoute)
 app.use("/api/users", userApiRoute)
 app.use("/users", userRoute);
+app.use("/", mailRoute)
 app.use("/", viewsRoute);
 
 
